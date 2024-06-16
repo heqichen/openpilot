@@ -91,6 +91,17 @@
     </message>
 </context>
 <context>
+    <name>BehaviorPanel</name>
+    <message>
+        <source>Max Cruise De-accel:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cruise Accel Factor:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>ConfirmationDialog</name>
     <message>
         <source>Ok</source>
@@ -99,6 +110,21 @@
     <message>
         <source>Cancel</source>
         <translation>取消</translation>
+    </message>
+</context>
+<context>
+    <name>CustomSlider</name>
+    <message>
+        <source>RESET</source>
+        <translation type="unfinished">重置</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to reset </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reset</source>
+        <translation type="unfinished">重置</translation>
     </message>
 </context>
 <context>
@@ -643,6 +669,10 @@ This may take up to a minute.</source>
         <source>Software</source>
         <translation>软件</translation>
     </message>
+    <message>
+        <source>Behavior</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Setup</name>
@@ -1102,6 +1132,14 @@ This may take up to a minute.</source>
     <message>
         <source>The driving visualization will transition to the road-facing wide-angle camera at low speeds to better show some turns. The Experimental mode logo will also be shown in the top right corner. When a navigation destination is set and the driving model is using it as input, the driving path on the map will turn green.</source>
         <translation>行驶画面将在低速时切换到道路朝向的广角摄像头，以更好地显示一些转弯。实验模式标志也将显示在右上角。当设置了导航目的地并且驾驶模型正在使用它作为输入时，地图上的驾驶路径将变为绿色。</translation>
+    </message>
+    <message>
+        <source>Record and Upload Road Cameras</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Upload data from the road cameras.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

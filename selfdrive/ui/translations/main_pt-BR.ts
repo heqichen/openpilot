@@ -91,6 +91,17 @@
     </message>
 </context>
 <context>
+    <name>BehaviorPanel</name>
+    <message>
+        <source>Max Cruise De-accel:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cruise Accel Factor:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>ConfirmationDialog</name>
     <message>
         <source>Ok</source>
@@ -99,6 +110,21 @@
     <message>
         <source>Cancel</source>
         <translation>Cancelar</translation>
+    </message>
+</context>
+<context>
+    <name>CustomSlider</name>
+    <message>
+        <source>RESET</source>
+        <translation type="unfinished">RESET</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to reset </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reset</source>
+        <translation type="unfinished">Resetar</translation>
     </message>
 </context>
 <context>
@@ -647,6 +673,10 @@ Isso pode levar até um minuto.</translation>
         <source>Software</source>
         <translation>Software</translation>
     </message>
+    <message>
+        <source>Behavior</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Setup</name>
@@ -1106,6 +1136,14 @@ Isso pode levar até um minuto.</translation>
     <message>
         <source>The driving visualization will transition to the road-facing wide-angle camera at low speeds to better show some turns. The Experimental mode logo will also be shown in the top right corner. When a navigation destination is set and the driving model is using it as input, the driving path on the map will turn green.</source>
         <translation>A visualização de condução fará a transição para a câmera grande angular voltada para a estrada em baixas velocidades para mostrar melhor algumas curvas. O logotipo do modo Experimental também será mostrado no canto superior direito. Quando um destino de navegação é definido e o modelo de condução o utiliza como entrada o caminho de condução no mapa fica verde.</translation>
+    </message>
+    <message>
+        <source>Record and Upload Road Cameras</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Upload data from the road cameras.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

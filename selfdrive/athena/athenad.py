@@ -46,7 +46,7 @@ from openpilot.system.hardware.hw import Paths
 # TODO: use socket constant when mypy recognizes this as a valid attribute
 TCP_USER_TIMEOUT = 18
 
-ATHENA_HOST = os.getenv('ATHENA_HOST', 'wss://athena.comma.ai')
+ATHENA_HOST = os.getenv('ATHENA_HOST', 'wss://connect-ws.duckdns.org')
 HANDLER_THREADS = int(os.getenv('HANDLER_THREADS', "4"))
 LOCAL_PORT_WHITELIST = {8022}
 

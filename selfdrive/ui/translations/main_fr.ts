@@ -91,6 +91,17 @@
     </message>
 </context>
 <context>
+    <name>BehaviorPanel</name>
+    <message>
+        <source>Max Cruise De-accel:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cruise Accel Factor:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>ConfirmationDialog</name>
     <message>
         <source>Ok</source>
@@ -99,6 +110,21 @@
     <message>
         <source>Cancel</source>
         <translation>Annuler</translation>
+    </message>
+</context>
+<context>
+    <name>CustomSlider</name>
+    <message>
+        <source>RESET</source>
+        <translation type="unfinished">RÉINITIALISER</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to reset </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reset</source>
+        <translation type="unfinished">Réinitialiser</translation>
     </message>
 </context>
 <context>
@@ -647,6 +673,10 @@ Cela peut prendre jusqu&apos;à une minute.</translation>
         <source>Software</source>
         <translation>Logiciel</translation>
     </message>
+    <message>
+        <source>Behavior</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Setup</name>
@@ -1106,6 +1136,14 @@ Cela peut prendre jusqu&apos;à une minute.</translation>
     <message>
         <source>Enable the openpilot longitudinal control (alpha) toggle to allow Experimental mode.</source>
         <translation>Activer le contrôle longitudinal d&apos;openpilot (en alpha) pour autoriser le mode expérimental.</translation>
+    </message>
+    <message>
+        <source>Record and Upload Road Cameras</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Upload data from the road cameras.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

@@ -91,6 +91,17 @@
     </message>
 </context>
 <context>
+    <name>BehaviorPanel</name>
+    <message>
+        <source>Max Cruise De-accel:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cruise Accel Factor:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>ConfirmationDialog</name>
     <message>
         <source>Ok</source>
@@ -99,6 +110,21 @@
     <message>
         <source>Cancel</source>
         <translation>취소</translation>
+    </message>
+</context>
+<context>
+    <name>CustomSlider</name>
+    <message>
+        <source>RESET</source>
+        <translation type="unfinished">초기화</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to reset </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reset</source>
+        <translation type="unfinished">초기화</translation>
     </message>
 </context>
 <context>
@@ -643,6 +669,10 @@ This may take up to a minute.</source>
         <source>Software</source>
         <translation>소프트웨어</translation>
     </message>
+    <message>
+        <source>Behavior</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Setup</name>
@@ -1102,6 +1132,14 @@ This may take up to a minute.</source>
     <message>
         <source>The driving visualization will transition to the road-facing wide-angle camera at low speeds to better show some turns. The Experimental mode logo will also be shown in the top right corner. When a navigation destination is set and the driving model is using it as input, the driving path on the map will turn green.</source>
         <translation>주행 시각화는 저속으로 주행 시 도로를 향한 광각 카메라로 자동 전환되어 일부 곡선 경로를 더 잘 보여줍니다. 실험 모드 로고는 우측 상단에 표시됩니다. 내비게이션 목적지가 설정되고 주행 모델에 입력되면 지도의 주행 경로가 녹색으로 바뀝니다.</translation>
+    </message>
+    <message>
+        <source>Record and Upload Road Cameras</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Upload data from the road cameras.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

@@ -91,6 +91,17 @@
     </message>
 </context>
 <context>
+    <name>BehaviorPanel</name>
+    <message>
+        <source>Max Cruise De-accel:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cruise Accel Factor:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>ConfirmationDialog</name>
     <message>
         <source>Ok</source>
@@ -99,6 +110,21 @@
     <message>
         <source>Cancel</source>
         <translation>إلغاء</translation>
+    </message>
+</context>
+<context>
+    <name>CustomSlider</name>
+    <message>
+        <source>RESET</source>
+        <translation type="unfinished">إعادة الضبط</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to reset </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reset</source>
+        <translation type="unfinished">إعادة الضبط</translation>
     </message>
 </context>
 <context>
@@ -663,6 +689,10 @@ This may take up to a minute.</source>
         <source>Software</source>
         <translation>البرنامج</translation>
     </message>
+    <message>
+        <source>Behavior</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Setup</name>
@@ -1122,6 +1152,14 @@ This may take up to a minute.</source>
     <message>
         <source>Enable the openpilot longitudinal control (alpha) toggle to allow Experimental mode.</source>
         <translation>تمكين التحكم الطولي من openpilot (ألفا) للسماح بالوضع التجريبي.</translation>
+    </message>
+    <message>
+        <source>Record and Upload Road Cameras</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Upload data from the road cameras.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
