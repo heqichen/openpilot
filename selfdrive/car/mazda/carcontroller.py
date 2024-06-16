@@ -18,7 +18,7 @@ class CarController(CarControllerBase):
     self.packer = CANPacker(dbc_name)
     self.brake_counter = 0
     self.frame = 0
-    self.params = CarControllerParams(CP)
+    self.ccp = CarControllerParams(CP)
     self.hold_timer = Timer(6.0)
     self.hold_delay = Timer(.5) # delay before we start holding as to not hit the brakes too hard
     self.resume_timer = Timer(0.5)
@@ -32,14 +32,14 @@ class CarController(CarControllerBase):
 
     if CC.latActive:
       # calculate steer and also set limits due to driver torque
-      new_steer = int(round(CC.actuators.steer * self.params.STEER_MAX))
+      new_steer = int(round(CC.actuators.steer * self.ccp.STEER_MAX))
       apply_steer = apply_driver_steer_torque_limits(new_steer, self.apply_steer_last,
-                                                     CS.out.steeringTorque, self.params)
+                                                     CS.out.steeringTorque, self.ccp)
       if self.CP.flags & MazdaFlags.TORQUE_INTERCEPTOR:
         if CS.ti_lkas_allowed:
-          ti_new_steer = int(round(CC.actuators.steer * self.params.TI_STEER_MAX))
+          ti_new_steer = int(round(CC.actuators.steer * self.ccp.TI_STEER_MAX))
           ti_apply_steer = apply_ti_steer_torque_limits(ti_new_steer, self.ti_apply_steer_last,
-                                                    CS.out.steeringTorque, self.params)
+                                                    CS.out.steeringTorque, self.ccp)
 
     if CC.cruiseControl.cancel:
       # If brake is pressed, let us wait >70ms before trying to disable crz to avoid
@@ -69,6 +69,15 @@ class CarController(CarControllerBase):
         steer_required = steer_required and CS.lkas_allowed_speed
         can_sends.append(mazdacan.create_alert_command(self.packer, CS.cam_laneinfo, ldw, steer_required))
 
+      if self.CP.flags & MazdaFlags.RADAR_INTERCEPTOR:
+        hold = False
+        if CS.out.standstill:
+          hold = self.hold_timer.active()
+        else:
+          self.hold_timer.reset()
+        if self.frame % 2 == 0:
+          can_sends.extend(mazdacan.create_radar_command(self.packer, self.frame, CC, CS, hold))
+
     else:
       resume = False
       hold = False
@@ -96,11 +105,11 @@ class CarController(CarControllerBase):
         can_sends.append(mazdacan.create_acc_cmd(self.packer, CS.acc, CC.actuators.accel, hold, resume))
 
     # send steering command
-    can_sends.append(mazdacan.create_steering_control(self.packer, self.CP,
+    can_sends.extend(mazdacan.create_steering_control(self.packer, self.CP,
                                                       self.frame, apply_steer, CS.cam_lkas))
 
     new_actuators = CC.actuators.as_builder()
-    new_actuators.steer = apply_steer / self.params.STEER_MAX
+    new_actuators.steer = apply_steer / self.ccp.STEER_MAX
     new_actuators.steerOutputCan = apply_steer
 
     self.frame += 1

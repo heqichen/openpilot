@@ -151,7 +151,8 @@ class CarState(CarStateBase):
     self.cam_lkas = cp_cam.vl["CAM_LKAS"]
     self.cam_laneinfo = cp_cam.vl["CAM_LANEINFO"]
     ret.steerFaultPermanent = cp_cam.vl["CAM_LKAS"]["ERR_BIT_1"] == 1 if not self.CP.flags & MazdaFlags.TORQUE_INTERCEPTOR else False
-
+    self.cp_cam = cp_cam
+    self.cp = cp
     return ret
 
   def update_gen2(self, cp, cp_cam, cp_body):
@@ -274,6 +275,11 @@ class CarState(CarStateBase):
           ("CRZ_INFO", 50),
           ("CRZ_CTRL", 50),
         ]
+        for addr in range(361,367):
+          msg = f"RADAR_{addr}"
+          messages += [
+            (msg,10),
+          ]
 
     if CP.flags & MazdaFlags.GEN2:
       messages += [

@@ -1,10 +1,10 @@
 from openpilot.selfdrive.car.mazda.values import Buttons, MazdaFlags
 from openpilot.common.params import Params
+from openpilot.common.numpy_fast import clip
 
 def create_steering_control(packer, CP, frame, apply_steer, lkas):
+  msgs = []
   if CP.flags & MazdaFlags.GEN1:
-    sig_name = "CAM_LKAS"
-    bus = 0
     tmp = apply_steer + 2048
 
     lo = tmp & 0xFF
@@ -59,6 +59,15 @@ def create_steering_control(packer, CP, frame, apply_steer, lkas):
         "ANGLE_ENABLED": b2,
         "CHKSUM": csum
       }
+      msgs.append(packer.make_can_msg("CAM_LKAS", 0, values))
+
+      if CP.flags & MazdaFlags.TORQUE_INTERCEPTOR:
+        values = {
+            "LKAS_REQUEST"     : apply_steer,
+            "CHKSUM"           : apply_steer,
+            "KEY"              : 3294744160
+        }
+        msgs.append(packer.make_can_msg("CAM_LKAS2", 1, values))
 
   elif CP.flags & MazdaFlags.GEN2:
     bus = 1
@@ -67,8 +76,9 @@ def create_steering_control(packer, CP, frame, apply_steer, lkas):
       "LKAS_REQUEST": apply_steer,
       "STEER_FEEL": 12000,
     }
+    msgs.append(packer.make_can_msg(sig_name, bus, values))
 
-  return packer.make_can_msg(sig_name, bus, values)
+  return msgs
 
 def create_ti_steering_control(packer, CP, apply_steer):
 
@@ -158,6 +168,66 @@ def create_button_cmd(packer, CP, counter, button):
 
     return packer.make_can_msg("CRZ_BTNS", 0, values)
 
+STATIC_DATA_21B = [0x01FFE000, 0x00000000]
+STATIC_DATA_361 = [0xFFF7FEFE, 0x1FC]
+STATIC_DATA_362 = [0xFFF7FEFE, 0x1FC]
+STATIC_DATA_363 = [0xFFF7FEFE, 0x1FC0000]
+STATIC_DATA_364 = [0xFFF7FEFE, 0x1FC0000]
+STATIC_DATA_365 = [0xFFF7FE7F, 0xFBFF3FC]
+STATIC_DATA_366 = [0xFFF7FE7F, 0xFBFF3FC]
+static_data_list = [STATIC_DATA_361, STATIC_DATA_362, STATIC_DATA_363, STATIC_DATA_364, STATIC_DATA_365, STATIC_DATA_366]
+
+def create_radar_command(packer, frame, CC, CS, hold):
+  accel = 0
+  ret = []
+  crz_ctrl = CS.crz_cntr
+  crz_info = CS.crz_info
+
+  if CC.longActive: # this is set true in longcontrol.py
+    accel = CC.actuators.accel * 1170
+    accel = accel if accel < 1000 else 1000
+  else:
+    accel = int(crz_info["ACCEL_CMD"])
+
+  crz_info["ACC_ACTIVE"] = int(CC.longActive)
+  crz_info["ACC_SET_ALLOWED"] = int(bool(int(CS.cp.vl["GEAR"]["GEAR"]) & 4)) # we can set ACC_SET_ALLOWED bit when in drive. Allows crz to be set from 1kmh.
+  crz_info["CRZ_ENDED"] = 0 # this should keep acc on down to 5km/h on my 2018 M3
+  crz_info["ACCEL_CMD"] = accel
+  crz_info["STOPPING_MAYBE"] = hold
+  crz_info["STOPPING_MAYBE2"] = hold
+
+  crz_ctrl["CRZ_ACTIVE"] = int(CC.longActive)
+  crz_ctrl["ACC_ACTIVE_2"] = int(CC.longActive)
+  crz_ctrl["DISABLE_TIMER_1"] = 0
+  crz_ctrl["DISABLE_TIMER_2"] = 0
+
+  ret.append(packer.make_can_msg("CRZ_INFO", 0, crz_info))
+  ret.append(packer.make_can_msg("CRZ_CTRL", 0, crz_ctrl))
+  # convert steering angle to radar units and clip to range
+  steer_angle = (CS.out.steeringAngleDeg *-17.4) + 2048
+
+  if (frame % 10 == 0):
+    for i, addr in enumerate(range(361,367)):
+      addr_name = f"RADAR_{addr}"
+      msg = CS.cp_cam.vl[addr_name]
+      values = {
+        "MSGS_1" : static_data_list[i][0],
+        "MSGS_2" : static_data_list[i][1],
+        "CTR"    : int(msg["CTR"]) #frame % 16
+      }
+      if addr == 361:
+        values.update({
+          "INVERSE_SPEED" : int(CS.out.vEgo * -4.4),
+          "BIT" : 1,
+        })
+      if addr == 362:
+        values.update({
+          "CLIPPED_STEER_ANGLE" : int(clip(steer_angle, 0, 4092)),
+        })
+      ret.append(packer.make_can_msg(addr_name, 0, values))
+
+  return ret
+
 def create_acc_cmd(packer, values, accel, hold, resume):
   msg_name = "ACC"
   bus = 2
@@ -171,3 +241,4 @@ def create_acc_cmd(packer, values, accel, hold, resume):
     pass
 
   return packer.make_can_msg(msg_name, bus, values)
+

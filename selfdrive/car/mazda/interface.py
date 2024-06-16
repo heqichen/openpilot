@@ -34,10 +34,6 @@ class CarInterface(CarInterfaceBase):
         ret.longitudinalTuning.kpV = [1.3, 1.0, 0.7]
         ret.longitudinalTuning.kiBP = [0., 5., 20., 30.]
         ret.longitudinalTuning.kiV = [0.36, 0.23, 0.17, 0.1]
-        ret.longitudinalTuning.deadzoneBP = [0.0, 30.0]
-        ret.longitudinalTuning.deadzoneV = [0.0, 0.03]
-        ret.longitudinalActuatorDelayLowerBound = 0.3
-        ret.longitudinalActuatorDelayUpperBound = 1.5
         ret.safetyConfigs[0].safetyParam |= Panda.FLAG_MAZDA_RADAR_INTERCEPTOR
 
       if p.get("NoMRCC"): # No Mazda Radar Cruise Control; Missing CRZ_CTRL signal
