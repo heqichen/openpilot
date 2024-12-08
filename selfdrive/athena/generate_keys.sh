@@ -49,9 +49,6 @@ backup_keys() {
     fi
 }
 
-# Trap any signal that exits the script to run cleanup function
-trap cleanup EXIT
-
 # Remount /persist as read-write
 sudo mount -o remount,rw ${persist_dir}
 
