@@ -19,7 +19,7 @@ from openpilot.common.swaglog import cloudlog
 
 UNREGISTERED_DONGLE_ID = "UnregisteredDevice"
 
-def create_new_keys(spinner: Spinner):
+def create_new_keys(spinner: Spinner, params: Params):
   try:
     result = subprocess.run(
       ['sudo', 'bash', '/data/openpilot/selfdrive/athena/generate_keys.sh'],
@@ -33,11 +33,11 @@ def create_new_keys(spinner: Spinner):
     time.sleep(2)
     if spinner:
       spinner.update(f"SSL Keys generated. Device will attempt to register now.")
-    Params().remove("DongleId")
+    params.remove("DongleId")
   except subprocess.CalledProcessError as e:
     if spinner:
       spinner.update("Failed to generate keys")
-    Params().put("DongleId", UNREGISTERED_DONGLE_ID)
+    params.put("DongleId", UNREGISTERED_DONGLE_ID)
     print("Script failed with return code:", e.returncode)
     print("Error message:", e.stderr.decode())
 
@@ -63,7 +63,7 @@ def register(show_spinner=False) -> Optional[str]:
     if show_spinner:
       spinner = Spinner()
       spinner.update("No SSL keys found. Creating SSL keys")
-      create_new_keys(spinner)
+      create_new_keys(spinner, params)
     else:
       needs_registration = False
   if needs_registration:
@@ -106,7 +106,7 @@ def register(show_spinner=False) -> Optional[str]:
         if resp.status_code in (402, 403):
           if resp.status_code == 403:
             spinner.update("Bad SSL keys found. Creating new SSL keys")
-            create_new_keys(spinner)
+            create_new_keys(spinner, params)
             if pubkey.is_file():
               with open(Paths.persist_root()+"/comma/id_rsa.pub") as f1, open(Paths.persist_root()+"/comma/id_rsa") as f2:
                 public_key = f1.read()
