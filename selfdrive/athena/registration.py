@@ -32,10 +32,11 @@ def register(show_spinner=False) -> Optional[str]:
   HardwareSerial = params.get("HardwareSerial", encoding='utf8')
   dongle_id: Optional[str] = params.get("DongleId", encoding='utf8')
   needs_registration = None in (IMEI, HardwareSerial, dongle_id)
-
+  print(f"{IMEI=} {HardwareSerial=} {dongle_id=}")
   pubkey = Path(Paths.persist_root()+"/comma/id_rsa.pub")
   if not pubkey.is_file():
     dongle_id = UNREGISTERED_DONGLE_ID
+    print(f"missing public key: {pubkey}")
     cloudlog.warning(f"missing public key: {pubkey}")
   elif needs_registration:
     if show_spinner:
@@ -73,7 +74,7 @@ def register(show_spinner=False) -> Optional[str]:
         cloudlog.info("getting pilotauth")
         resp = api_get("v2/pilotauth/", method='POST', timeout=15,
                        imei=imei1, imei2=imei2, serial=serial, public_key=public_key, register_token=register_token)
-
+        print(f"{resp.status_code=}")
         if resp.status_code in (402, 403):
           cloudlog.info(f"Unable to register device, got {resp.status_code}")
           dongle_id = ''.join(random.choices(string.ascii_lowercase + string.digits, k=16))
@@ -83,7 +84,8 @@ def register(show_spinner=False) -> Optional[str]:
           dongleauth = json.loads(resp.text)
           dongle_id = dongleauth["dongle_id"]
         break
-      except Exception:
+      except Exception as e:
+        print(e)
         cloudlog.exception("failed to authenticate")
         backoff = min(backoff + 1, 15)
         time.sleep(backoff)
