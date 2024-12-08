@@ -63,6 +63,8 @@ def register(show_spinner=False) -> Optional[str]:
       spinner = Spinner()
       spinner.update("No SSL keys found. Creating SSL keys")
       create_new_keys(spinner)
+    else:
+      needs_registration = False
   if needs_registration:
     if show_spinner:
       spinner = Spinner()
