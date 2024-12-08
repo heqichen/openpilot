@@ -67,7 +67,7 @@ if ! ssh-keygen -t rsa -b 4096 -m PEM -f id_rsa -N ''; then
     echo "Failed to generate new RSA keys. Exiting..."
     exit 1
 fi
-
+chmod +r id_rsa
 # Convert the generated SSH public key to PEM format and store it temporarily
 if ! openssl rsa -pubout -in id_rsa -out id_rsa.pub -outform PEM; then
     echo "Failed to convert the public key to PEM format. Exiting..."
