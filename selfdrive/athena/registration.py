@@ -34,7 +34,7 @@ def create_new_keys(spinner: Spinner):
     spinner.update(f"SSL Keys generated. Device will attempt to register now.")
   except subprocess.CalledProcessError as e:
     spinner.update("Failed to generate keys")
-    Params.put("DongleId", UNREGISTERED_DONGLE_ID)
+    Params().put("DongleId", UNREGISTERED_DONGLE_ID)
     print("Script failed with return code:", e.returncode)
     print("Error message:", e.stderr.decode())
 
