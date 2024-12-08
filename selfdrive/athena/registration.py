@@ -60,14 +60,14 @@ def register(show_spinner=False) -> Optional[str]:
     dongle_id = UNREGISTERED_DONGLE_ID
     print(f"missing public key: {pubkey}")
     cloudlog.warning(f"missing public key: {pubkey}")
-    if show_spinner:
-      spinner = Spinner()
-      spinner.update("No SSL keys found. Creating SSL keys")
-      create_new_keys(spinner, params)
-      needs_registration = True
-    else:
-      needs_registration = False
-  if needs_registration:
+    # if show_spinner:
+    #   spinner = Spinner()
+    #   spinner.update("No SSL keys found. Creating SSL keys")
+    #   create_new_keys(spinner, params)
+    #   needs_registration = True
+    # else:
+    #   needs_registration = False
+  elif needs_registration:
     if show_spinner:
       spinner = Spinner()
       spinner.update("registering device")
@@ -105,14 +105,14 @@ def register(show_spinner=False) -> Optional[str]:
                        imei=imei1, imei2=imei2, serial=serial, public_key=public_key, register_token=register_token)
         print(f"{resp.status_code=}")
         if resp.status_code in (402, 403):
-          if resp.status_code == 403:
-            spinner.update("Bad SSL keys found. Creating new SSL keys")
-            create_new_keys(spinner, params)
-            if pubkey.is_file():
-              with open(Paths.persist_root()+"/comma/id_rsa.pub") as f1, open(Paths.persist_root()+"/comma/id_rsa") as f2:
-                public_key = f1.read()
-                private_key = f2.read()
-              continue
+          # if resp.status_code == 403:
+          #   spinner.update("Bad SSL keys found. Creating new SSL keys")
+          #   create_new_keys(spinner, params)
+          #   if pubkey.is_file():
+          #     with open(Paths.persist_root()+"/comma/id_rsa.pub") as f1, open(Paths.persist_root()+"/comma/id_rsa") as f2:
+          #       public_key = f1.read()
+          #       private_key = f2.read()
+          #     continue
           cloudlog.info(f"Unable to register device, got {resp.status_code}")
           dongle_id = ''.join(random.choices(string.ascii_lowercase + string.digits, k=16))
           params.put_bool("FireTheBabysitter", True)
