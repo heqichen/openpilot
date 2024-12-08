@@ -33,6 +33,7 @@ def create_new_keys(spinner: Spinner):
     time.sleep(2)
     if spinner:
       spinner.update(f"SSL Keys generated. Device will attempt to register now.")
+    Params().remove("DongleId")
   except subprocess.CalledProcessError as e:
     if spinner:
       spinner.update("Failed to generate keys")
