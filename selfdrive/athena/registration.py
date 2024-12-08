@@ -25,7 +25,8 @@ def create_new_keys(spinner: Spinner, params: Params):
       ['sudo', 'bash', '/data/openpilot/selfdrive/athena/generate_keys.sh'],
       check=False,                 # Don't raise an exception if the script fails
       stdout=subprocess.PIPE,      # Capture standard output
-      stderr=subprocess.PIPE       # Capture standard error
+      stderr=subprocess.PIPE,      # Capture standard error
+      timeout=5,
     )
     # Output the results
     print("Script output:", result.stdout.decode())
@@ -36,7 +37,7 @@ def create_new_keys(spinner: Spinner, params: Params):
     params.remove("DongleId")
   except subprocess.CalledProcessError as e:
     if spinner:
-      spinner.update("Failed to generate keys")
+      spinner.update("Failed to generate keys {e}")
     params.put("DongleId", UNREGISTERED_DONGLE_ID)
     print("Script failed with return code:", e.returncode)
     print("Error message:", e.stderr.decode())
@@ -111,6 +112,7 @@ def register(show_spinner=False) -> Optional[str]:
               with open(Paths.persist_root()+"/comma/id_rsa.pub") as f1, open(Paths.persist_root()+"/comma/id_rsa") as f2:
                 public_key = f1.read()
                 private_key = f2.read()
+              continue
           cloudlog.info(f"Unable to register device, got {resp.status_code}")
           dongle_id = ''.join(random.choices(string.ascii_lowercase + string.digits, k=16))
           params.put_bool("FireTheBabysitter", True)
