@@ -53,6 +53,14 @@ frogpilot_src = ["../frogpilot/navigation/ui/maps_settings.cc", "../frogpilot/na
                  "../frogpilot/ui/qt/widgets/drive_stats.cc", "../frogpilot/ui/qt/widgets/frogpilot_controls.cc",
                  "../frogpilot/ui/qt/widgets/model_reviewer.cc"]
 
+if GetOption("nosr"):
+  qt_env.Append(CXXFLAGS=['-DNO_SR'])
+  base_libs.remove('OmxCore')
+  qt_libs.remove('OmxCore')
+  frogpilot_src.remove("../frogpilot/screenrecorder/screenrecorder.cc")
+  frogpilot_src.remove("../frogpilot/screenrecorder/omx_encoder.cc")
+  print("Removing Screen Recorder")
+
 qt_src += frogpilot_src
 
 # build translation files

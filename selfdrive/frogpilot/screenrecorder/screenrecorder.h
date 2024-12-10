@@ -53,7 +53,7 @@ private:
   std::unique_ptr<OmxEncoder> encoder;
 
   std::unique_ptr<uint8_t[]> rgbScaleBuffer;
-#endif
 
   std::thread encodingThread;
+#endif
 };
