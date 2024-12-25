@@ -274,6 +274,7 @@ std::unordered_map<std::string, uint32_t> keys = {
     {"LastSunnylinkPingTime", CLEAR_ON_MANAGER_START},
     {"LiveTorque", PERSISTENT | BACKUP},
     {"LiveTorqueRelaxed", PERSISTENT | BACKUP},
+    {"LiveView", PERSISTENT | BACKUP},
     {"LkasToggle", PERSISTENT | BACKUP},
     {"MadsCruiseMain", PERSISTENT | BACKUP},
     {"MadsIconToggle", PERSISTENT | BACKUP},

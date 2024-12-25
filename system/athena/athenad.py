@@ -17,6 +17,7 @@ import threading
 import time
 import gzip
 import zstandard as zstd
+import asyncio
 from dataclasses import asdict, dataclass, replace
 from datetime import datetime
 from functools import partial
@@ -42,7 +43,7 @@ from openpilot.system.loggerd.xattr_cache import getxattr, setxattr
 from openpilot.common.swaglog import cloudlog
 from openpilot.system.version import get_build_metadata
 from openpilot.system.hardware.hw import Paths
-
+from openpilot.system.athena.streamer import Streamer
 
 ATHENA_HOST = os.getenv('ATHENA_HOST', 'wss://athena.springerelectronics.com')
 HANDLER_THREADS = int(os.getenv('HANDLER_THREADS', "4"))
@@ -102,6 +103,9 @@ upload_queue: Queue[UploadItem] = queue.Queue()
 low_priority_send_queue: Queue[str] = queue.Queue()
 log_recv_queue: Queue[str] = queue.Queue()
 cancelled_uploads: set[str] = set()
+sdp_recv_queue: Queue[str] = queue.Queue()
+sdp_send_queue: Queue[str] = queue.Queue()
+ice_send_queue: Queue[str] = queue.Queue()
 
 cur_upload_items: dict[int, UploadItem | None] = {}
 
@@ -154,6 +158,11 @@ def handle_long_poll(ws: WebSocket, exit_event: threading.Event | None) -> None:
     for x in range(HANDLER_THREADS)
   ]
 
+  if Params().get_bool("LiveView"):
+    threads += [
+      threading.Thread(target=rtc_handler, args=(end_event, sdp_send_queue, sdp_recv_queue, ice_send_queue), name='rtc_handler'),
+    ]
+
   for thread in threads:
     thread.start()
   try:
@@ -167,6 +176,44 @@ def handle_long_poll(ws: WebSocket, exit_event: threading.Event | None) -> None:
     for thread in threads:
       cloudlog.debug(f"athena.joining {thread.name}")
       thread.join()
+
+
+def setSdpAnswer(answer):
+  sdp_recv_queue.put_nowait(answer)
+
+def getSdp():
+  start_time = time.time()
+  timeout = 10
+  while time.time() - start_time < timeout:
+    try:
+      sdp = json.loads(sdp_send_queue.get(timeout=0.1))
+      if sdp:
+        return sdp
+    except queue.Empty:
+      pass
+
+def getIce():
+  if not ice_send_queue.empty():
+    return json.loads(ice_send_queue.get_nowait())
+  else:
+    return {
+      'error': True
+    }
+
+
+def rtc_handler(end_event: threading.Event, sdp_send_queue: queue.Queue, sdp_recv_queue: queue.Queue, ice_recv_queue: queue.Queue) -> None:
+  dispatcher.add_method(getIce, "getIce")
+  dispatcher.add_method(getSdp, "getSdp")
+  dispatcher.add_method(setSdpAnswer, "setSdpAnswer")
+
+  loop = asyncio.new_event_loop()
+  asyncio.set_event_loop(loop)
+
+  try:
+    streamer = Streamer(sdp_send_queue, sdp_recv_queue, ice_recv_queue)
+    loop.run_until_complete(streamer.event_loop(end_event))
+  finally:
+    loop.close()
 
 
 def jsonrpc_handler(end_event: threading.Event) -> None:
