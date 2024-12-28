@@ -94,11 +94,11 @@
     <name>BehaviorPanel</name>
     <message>
         <source>Max Cruise De-accel:</source>
-        <translation type="unfinished"></translation>
+        <translation>最大巡航减速度</translation>
     </message>
     <message>
         <source>Cruise Accel Factor:</source>
-        <translation type="unfinished"></translation>
+        <translation>巡航加速度因数</translation>
     </message>
 </context>
 <context>
@@ -116,15 +116,15 @@
     <name>CustomSlider</name>
     <message>
         <source>RESET</source>
-        <translation type="unfinished">重置</translation>
+        <translation>重置</translation>
     </message>
     <message>
         <source>Are you sure you want to reset </source>
-        <translation type="unfinished"></translation>
+        <translation>是否确定重置</translation>
     </message>
     <message>
         <source>Reset</source>
-        <translation type="unfinished">重置</translation>
+        <translation>重置</translation>
     </message>
 </context>
 <context>
@@ -671,7 +671,7 @@ This may take up to a minute.</source>
     </message>
     <message>
         <source>Behavior</source>
-        <translation type="unfinished"></translation>
+        <translation>行为</translation>
     </message>
 </context>
 <context>
@@ -1135,55 +1135,55 @@ This may take up to a minute.</source>
     </message>
     <message>
         <source>OpenPilot Radar Passthrough</source>
-        <translation type="unfinished"></translation>
+        <translation>OpenPilot雷达直通</translation>
     </message>
     <message>
         <source>Dynamically switchable value to modify the radar signals in mazdacan.py</source>
-        <translation type="unfinished"></translation>
+        <translation>用来修改mazdacan.py中雷达信号的可动态切换值</translation>
     </message>
     <message>
         <source>Radar Intercept Wiring Harness</source>
-        <translation type="unfinished"></translation>
+        <translation>雷达拦截器（RI）线束</translation>
     </message>
     <message>
         <source>Turn this on if you have a radar intercept harness installed. Car restart required</source>
-        <translation type="unfinished"></translation>
+        <translation>如果你已经安装雷达拦截器（RI），将此选项打开。需要重启车辆</translation>
     </message>
     <message>
         <source>Panda Radar Passthrough</source>
-        <translation type="unfinished"></translation>
+        <translation>Panda雷达直通</translation>
     </message>
     <message>
         <source>Changes the panda code to directly forward the radar signals without openpilot affecting them. Set OpenPilot Radar Passthrough Param aswell. Car restart required</source>
-        <translation type="unfinished"></translation>
+        <translation>更改Panda代码以直接转发雷达信号而不受openpilot的影响。同时设置OpenPilot雷达直通。需要重启车辆</translation>
     </message>
     <message>
         <source>Disable Radar UDS Command</source>
-        <translation type="unfinished"></translation>
+        <translation>关闭雷达UDS命令</translation>
     </message>
     <message>
         <source>Send UDS Commands to disable the radar. This is usefull to see how the radar reacts. Car restart required</source>
-        <translation type="unfinished"></translation>
+        <translation>发送UDS命令来关闭雷达。用于观察雷达的反应。需要重启车辆</translation>
     </message>
     <message>
         <source>Send static radar tracks with counter passthrough</source>
-        <translation type="unfinished"></translation>
+        <translation>发送带有直通记数器的雷达跟踪</translation>
     </message>
     <message>
         <source>This is usefull to see how the car reacts. Requires: SendRadarTracks=on </source>
-        <translation type="unfinished"></translation>
+        <translation>用于查看车辆的反应。需要SendRadarTracks=on</translation>
     </message>
     <message>
         <source>Allow full detailed logs to be uploaded with connect over wifi hotspot</source>
-        <translation type="unfinished"></translation>
+        <translation>允许连接wifi热点时上传完整详细的日志</translation>
     </message>
     <message>
         <source>Record and Upload Road Cameras</source>
-        <translation type="unfinished"></translation>
+        <translation>记录并上传道路相机录像</translation>
     </message>
     <message>
         <source>Upload data from the road cameras.</source>
-        <translation type="unfinished"></translation>
+        <translation>从道路相机上传数据</translation>
     </message>
 </context>
 <context>
